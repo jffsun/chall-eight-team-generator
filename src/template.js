@@ -1,25 +1,36 @@
-// generates HTML
+// import Manager class from lib directory
+const Manager = require('../lib/Manager');
 
-const generateHTML = ({ name, location, github, linkedin }) =>
-  `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <title>Document</title>
+// format manager answers then write to index.html
+function generateManagerHTML (managerAnswers) {
+
+  // instantiate a Manager using user's manager answers
+  const manager = new Manager(managerAnswers.managerName, managerAnswers.managerId, managerAnswers.managerEmail, managerAnswers.managerOfficeNumber);
+
+  const managerFormatted = 
+    `<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <title>Team Profile</title>
 </head>
 <body>
   <div class="jumbotron jumbotron-fluid">
   <div class="container">
-    <h1 class="display-4">Hi! My name is ${name}</h1>
-    <p class="lead">I am from ${location}.</p>
-    <h3>Example heading <span class="badge badge-secondary">Contact Me</span></h3>
+    <h1 class="display-4">${manager.name}</h1>
+    <h2 class="">☕ ${manager.getRole()}.</h2>
     <ul class="list-group">
-      <li class="list-group-item">My GitHub username is ${github}</li>
-      <li class="list-group-item">LinkedIn: ${linkedin}</li>
+      <li class="list-group-item">ID: ${manager.id}</li>
+      <li class="list-group-item">Contact: ${manager.email}</li>
+      <li class="list-group-item">Office Number: ${manager.officeNumber}</li>
     </ul>
   </div>
 </div>
 </body>
 </html>`;
+return managerFormatted;
+};
+
+module.exports = generateManagerHTML;

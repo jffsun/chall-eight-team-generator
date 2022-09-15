@@ -1,12 +1,14 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
-const { generateManagerHTML, generateEngineerHTML, generateInternHTML, generateHTML } = require('./src/template');
+const { generateManagerHTML, generateEngineerHTML, generateInternHTML, roleChecker } = require('./src/template');
+const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
+const Intern = require('./lib/Intern');
 
-// import { generateManagerHTML } from './src/template.js';
-
+// Will store each team member's info
 const members = [];
 
+// Inquirer prompt to ask if user wants to add or finish building team
 var addOrFinish = {
   type: 'list',
   message: 'Select one of the following',
@@ -18,6 +20,7 @@ var addOrFinish = {
         ],
 };
 
+// Inquirer prompts for team manager info
 var managerQuestions = [
   {
     type: 'input',
@@ -41,6 +44,7 @@ var managerQuestions = [
   },
   ];
 
+  // Inquirer prompts for engineer(s) info
   var engineerQuestions = [
     {
       type: 'input',
@@ -62,8 +66,9 @@ var managerQuestions = [
       name: 'engineerGithub',
       message: 'What is your engineer’s Github username?',
     },
-    ]
+    ];
 
+    // Inquirer prompts for intern(s) info
     var internQuestions = [
       {
         type: 'input',
@@ -85,29 +90,33 @@ var managerQuestions = [
         name: 'internSchool',
         message: 'Which school does your intern attend?',
       },
-      ]
-  // user builds team profile
+      ];
+
+  // Builds team profile
  function ask() {
 
-  // User asked for team manager's information
+  // Asks team manager info
   inquirer.prompt(managerQuestions).then((managerAnswers) => {
 
     // manager answers as input into generateManagerHTML function
     // const managerContent = generateManagerHTML(managerAnswers);
-    members.push(managerAnswers);
+
+    // Instantiates the Engineer class with user's answers
+    const manager = new Manager(managerAnswers.managerName, managerAnswers.managerId, managerAnswers.managerEmail, managerAnswers.managerOfficeNumber);
     
-    askContinue(managerAnswers);
-    // generateHTML(members);
+    // Add manager info to members array
+    members.push(manager);
+    
+    askContinue();
   });
 };
 
-function askContinue(managerAnswers) {
-  // console.log(members);
+// Ask whether user to add new member or finish building team
+function askContinue() {
 
-  // Ask whether user to add a member or complete team profile
   inquirer.prompt(addOrFinish).then((answer) => {
 
-    // If user adds an engineer
+    // If user selects to add an engineer
     if (answer.addOrFinish == 'I want to add an engineer to my team') {
 
         // Ask engineer prompts
@@ -117,28 +126,39 @@ function askContinue(managerAnswers) {
           // const engineerContent = generateEngineerHTML(engineerAnswers);
 
           console.log(engineerAnswers);
-          const engineer = new Engineer(engineerAnswers.engineerName, engineerAnswers.engineerId, engineerAnswers.engineerEmail, engineerAnswers.engineerGithub)
+
+          // Instantiates the Engineer class with user's answers
+          const engineer = new Engineer(engineerAnswers.engineerName, engineerAnswers.engineerId, engineerAnswers.engineerEmail, engineerAnswers.engineerGithub);
+          
+          // Add engineer info to members array
           members.push(engineer);
           
-          askContinue(managerAnswers);
+          // Ask user again to add or complete team
+          askContinue();
         });
       
-        // If user adds an intern
+      // If user adds an intern
       } else if (answer.addOrFinish == 'I want to add an intern to my team') {
 
         // Ask intern prompts
-        inquirer.prompt(internQuestions).then((internAnswers) =>{
+        inquirer.prompt(internQuestions).then((internAnswers) => {
+
           console.log(internAnswers);
+
+          // Instantiates the Intern class with user's answers
+          const intern = new Intern(internAnswers.internName, internAnswers.internId, internAnswers.internEmail, internAnswers.internSchool);
+
           // const internContent = generateInternHTML(internAnswers);
-          members.push(internAnswers);
-          askContinue(managerAnswers);
+          members.push(intern);
+          askContinue();
         });
 
         // User finishes building team and HTML is generated
        } else {
           console.log('Members of your team')
           console.log(members);
-          generateHTML(members);
+
+          roleChecker (members);
           // Manager answers are formatted then written to file
           // const managerContent = generateManagerHTML(managerAnswers);
           // fs.writeFile('./dist/index.html', managerContent, (err) =>

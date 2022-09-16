@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
-const { generateManagerHTML, generateEngineerHTML, generateInternHTML, roleChecker } = require('./src/template');
+const { roleChecker, generateMembersHTML, generateHTML } = require('./src/template');
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
@@ -98,34 +98,25 @@ var managerQuestions = [
   // Asks team manager info
   inquirer.prompt(managerQuestions).then((managerAnswers) => {
 
-    // manager answers as input into generateManagerHTML function
-    // const managerContent = generateManagerHTML(managerAnswers);
-
-    // Instantiates the Engineer class with user's answers
+    // Instantiates the Manager class with user's answers
     const manager = new Manager(managerAnswers.managerName, managerAnswers.managerId, managerAnswers.managerEmail, managerAnswers.managerOfficeNumber);
     
     // Add manager info to members array
     members.push(manager);
-    
     askContinue();
   });
 };
 
-// Ask whether user to add new member or finish building team
+// Ask user to add a new member or finish building team
 function askContinue() {
 
   inquirer.prompt(addOrFinish).then((answer) => {
 
-    // If user selects to add an engineer
+    // If user chooses to add an engineer
     if (answer.addOrFinish == 'I want to add an engineer to my team') {
 
         // Ask engineer prompts
         inquirer.prompt(engineerQuestions).then((engineerAnswers) =>{
-
-          // Format engineer answers
-          // const engineerContent = generateEngineerHTML(engineerAnswers);
-
-          console.log(engineerAnswers);
 
           // Instantiates the Engineer class with user's answers
           const engineer = new Engineer(engineerAnswers.engineerName, engineerAnswers.engineerId, engineerAnswers.engineerEmail, engineerAnswers.engineerGithub);
@@ -137,7 +128,7 @@ function askContinue() {
           askContinue();
         });
       
-      // If user adds an intern
+      // If user chooses to add an intern
       } else if (answer.addOrFinish == 'I want to add an intern to my team') {
 
         // Ask intern prompts
@@ -153,28 +144,19 @@ function askContinue() {
           askContinue();
         });
 
-        // User finishes building team and HTML is generated
+        // User chooses to finish building team
        } else {
-          console.log('Members of your team')
-          console.log(members);
 
-          roleChecker (members);
-          // Manager answers are formatted then written to file
-          // const managerContent = generateManagerHTML(managerAnswers);
-          // fs.writeFile('./dist/index.html', managerContent, (err) =>
-          // err ? console.log(err) : console.log('Successfully created your team profile!'));
+          // Seperates members into an array based on their role
+          let role = roleChecker(members);
+
+          // Formats an HTML card for the manager, engineers, and intern
+          generateMembersHTML(role.managers, role.engineers, role.interns);
+
+          // Generates index.html with team member info
+          generateHTML(membersHTMLContent);
         };
   });
 };
 
-
-        // manager answers as input into generateMangerHTML function
-        // const managerContent = gen(managerAnswers);
-
-  
-      // append engineer logic
-      // fs.appendFile('./dist/index.html', engineerContent, (err) =>
-      //     err ? console.log(err) : console.log('Successfully added engineers profiles!'));
-
-
- ask();
+ask();

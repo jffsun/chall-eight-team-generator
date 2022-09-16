@@ -1,5 +1,4 @@
 const inquirer = require('inquirer');
-const fs = require('fs');
 const { roleChecker, generateMembersHTML, generateHTML } = require('./src/template');
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
@@ -88,7 +87,7 @@ var managerQuestions = [
       {
         type: 'input',
         name: 'internSchool',
-        message: 'Which school does your intern attend?',
+        message: 'What school did your intern attend?',
       },
       ];
 
@@ -134,8 +133,6 @@ function askContinue() {
         // Ask intern prompts
         inquirer.prompt(internQuestions).then((internAnswers) => {
 
-          console.log(internAnswers);
-
           // Instantiates the Intern class with user's answers
           const intern = new Intern(internAnswers.internName, internAnswers.internId, internAnswers.internEmail, internAnswers.internSchool);
 
@@ -152,9 +149,9 @@ function askContinue() {
 
           // Formats an HTML card for the manager, engineers, and intern
           generateMembersHTML(role.managers, role.engineers, role.interns);
-
+          console.log(membersHTMLContent);
           // Generates index.html with team member info
-          generateHTML(membersHTMLContent);
+          generateHTML(membersHTMLContent.join(''));
         };
   });
 };

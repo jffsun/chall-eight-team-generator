@@ -39,12 +39,14 @@ function generateMembersHTML(managers, engineers, interns) {
   // Formats each manager's info in managers array
   managers.forEach(manager => {
     const managerFormatted = 
-    `<div id="${manager.name}-card" class="container">
-      <h1 class="display-4">${manager.name}</h1>
-      <h2 class="">☕ ${manager.getRole()}</h2>
+    `<div id="${manager.name}-card" class="container member">
+      <div class="member-header">
+        <h2>${manager.name}</h2>
+        <h2 class="">☕  ${manager.getRole()}</h2>
+      </div>
       <ul class="list-group">
         <li class="list-group-item">ID: ${manager.id}</li>
-        <li class="list-group-item">Contact: ${manager.email}</li>
+        <li class="list-group-item">Contact: <a href="mailto:${manager.email}">${manager.email}</a></li>
         <li class="list-group-item">Office Number: ${manager.officeNumber}</li>
       </ul>
     </div>`;
@@ -55,13 +57,15 @@ function generateMembersHTML(managers, engineers, interns) {
   // Formats each engineer's info in engineers array
   engineers.forEach(engineer => {
     const engineerFormatted = 
-    `<div id="${engineer.name}-card" class="container">
-      <h1 class="display-4">${engineer.name}</h1>
-      <h2 class="">💻${engineer.getRole()}</h2>
+    `<div id="${engineer.name}-card" class="container member">
+      <div class="member-header">
+        <h2>${engineer.name}</h2>
+        <h2 class="">💻  ${engineer.getRole()}</h2>
+      </div>
       <ul class="list-group">
         <li class="list-group-item">ID: ${engineer.id}</li>
-        <li class="list-group-item">Contact: ${engineer.email}</li>
-        <li class="list-group-item">Office Number: ${engineer.github}</li>
+        <li class="list-group-item">Contact: <a href="mailto:${engineer.email}">${engineer.email}</a></li>
+        <li class="list-group-item">GitHub:<a href="https://github.com/${engineer.github}" target="_blank"> ${engineer.github}</a></li>
       </ul>
     </div>`;
 
@@ -71,12 +75,14 @@ function generateMembersHTML(managers, engineers, interns) {
   // Formats each intern's info in interns array
   interns.forEach(intern => {
     const internFormatted = 
-    `<div class="container">
-      <h1 class="display-4">${intern.name}</h1>
-      <h2 class="">📓 ${intern.getRole()}</h2>
+    `<div id="${intern.name}-card" class="container member">
+      <div class="member-header">
+        <h2>${intern.name}</h2>
+        <h2 class="">📓  ${intern.getRole()}</h2>
+      </div>
       <ul class="list-group">
         <li class="list-group-item">ID: ${intern.id}</li>
-        <li class="list-group-item">Contact: ${intern.email}</li>
+        <li class="list-group-item">Contact: <a href="mailto:${intern.email}">${intern.email}</a></li>
         <li class="list-group-item">School: ${intern.school}</li>
       </ul>
     </div>`;
@@ -93,13 +99,19 @@ function generateHTML (membersHTMLContent) {
   <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./style.css" />
     <title>Team Profile</title>
   </head>
-  <body>
+  <body> 
+  <h1 class="display-4">Team Profile</h1>    
+  <div class="members">
   ${membersHTMLContent}
+  </div>
   </body>
   </html>`;
+  
   fs.writeFile('./dist/index.html', teamProfileHTML, (err) =>
   err ? console.log(err) : console.log('Successfully created your team profile!'));
 };

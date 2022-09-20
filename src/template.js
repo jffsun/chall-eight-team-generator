@@ -2,7 +2,7 @@ const fs = require('fs');
 const Manager = require('../lib/Manager');
 const Engineer = require('../lib/Engineer');
 
-// Seperates members into an array based on their role
+// Separates members into an array based on their role
 function roleChecker (members) {
   const managers = [];
   const engineers = [];
@@ -13,9 +13,9 @@ function roleChecker (members) {
     // Checks if member is of the Manager class
     if (members[i] instanceof Manager) {
       managers.push(members[i]);
-    }
+    
     // Checks if member is of the Engineer class
-    else if (members[i] instanceof Engineer) {
+   } else if (members[i] instanceof Engineer) {
       engineers.push(members[i]);
     
     // If member is an intern 
@@ -57,14 +57,14 @@ function generateMembersHTML(managers, engineers, interns) {
   // Formats each engineer's info in engineers array
   engineers.forEach(engineer => {
     const engineerFormatted = 
-    `<div id="${engineer.name}-card" class="container member">
+    `<div id="${engineer.getName()}-card" class="container member">
       <div class="member-header">
-        <h2>${engineer.name}</h2>
+        <h2>${engineer.getName()}</h2>
         <h2 class="">💻  ${engineer.getRole()}</h2>
       </div>
       <ul class="list-group">
-        <li class="list-group-item">ID: ${engineer.id}</li>
-        <li class="list-group-item">Contact: <a href="mailto:${engineer.email}">${engineer.email}</a></li>
+        <li class="list-group-item">ID: ${engineer.getID()}</li>
+        <li class="list-group-item">Contact: <a href="mailto:${engineer.getEmail()}">${engineer.getEmail()}</a></li>
         <li class="list-group-item">GitHub:<a href="https://github.com/${engineer.getGithub()}" target="_blank"> ${engineer.getGithub()}</a></li>
       </ul>
     </div>`;
@@ -75,14 +75,14 @@ function generateMembersHTML(managers, engineers, interns) {
   // Formats each intern's info in interns array
   interns.forEach(intern => {
     const internFormatted = 
-    `<div id="${intern.name}-card" class="container member">
+    `<div id="${intern.getName()}-card" class="container member">
       <div class="member-header">
-        <h2>${intern.name}</h2>
+        <h2>${intern.getName()}</h2>
         <h2 class="">📓  ${intern.getRole()}</h2>
       </div>
       <ul class="list-group">
-        <li class="list-group-item">ID: ${intern.id}</li>
-        <li class="list-group-item">Contact: <a href="mailto:${intern.email}">${intern.email}</a></li>
+        <li class="list-group-item">ID: ${intern.getID()}</li>
+        <li class="list-group-item">Contact: <a href="mailto:${intern.getEmail()}">${intern.getEmail()}</a></li>
         <li class="list-group-item">School: ${intern.getSchool()}</li>
       </ul>
     </div>`;
@@ -92,6 +92,7 @@ function generateMembersHTML(managers, engineers, interns) {
   return membersHTMLContent;
 };
 
+// Generates index.html to render 
 function generateHTML (membersHTMLContent) {
   const teamProfileHTML =
   `<!DOCTYPE html>

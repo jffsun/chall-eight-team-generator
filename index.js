@@ -149,7 +149,7 @@ function askContinue() {
 
           // Formats an HTML card for the manager, engineers, and intern
           generateMembersHTML(role.managers, role.engineers, role.interns);
-          console.log(membersHTMLContent);
+          
           // Generates index.html with team member info
           generateHTML(membersHTMLContent.join(''));
         };

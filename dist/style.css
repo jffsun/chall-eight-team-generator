@@ -16,11 +16,19 @@ h1 {
     margin-bottom: 5%;
     font-family: "Ubuntu", sans-serif;
     color: #ffffff;
-
 }
 
 h2 {
     font-size: 1.5rem;
+}
+
+.dislay-4 {
+    font-size: 2rem;
+}
+
+.members {
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .member-header {
@@ -29,11 +37,6 @@ h2 {
     border-radius: 3px;
     color: #ffffff;
 
-}
-
-.members {
-    display: flex;
-    flex-wrap: wrap;
 }
 
 .container {
@@ -45,8 +48,4 @@ h2 {
     border-radius: 5px;
     background-color: var(--light-blue);
     box-shadow: 7px 5px #b9b9b9;
-}
-
-.dislay-4 {
-    font-size: 2rem;
 }

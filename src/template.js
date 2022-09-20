@@ -39,14 +39,14 @@ function generateMembersHTML(managers, engineers, interns) {
   // Formats each manager's info in managers array
   managers.forEach(manager => {
     const managerFormatted = 
-    `<div id="${manager.name}-card" class="container member">
+    `<div id="${manager.getName()}-card" class="container member">
       <div class="member-header">
-        <h2>${manager.name}</h2>
+        <h2>${manager.getName()}</h2>
         <h2 class="">☕  ${manager.getRole()}</h2>
       </div>
       <ul class="list-group">
-        <li class="list-group-item">ID: ${manager.id}</li>
-        <li class="list-group-item">Contact: <a href="mailto:${manager.email}">${manager.email}</a></li>
+        <li class="list-group-item">ID: ${manager.getID()}</li>
+        <li class="list-group-item">Contact: <a href="mailto:${manager.getEmail()}">${manager.getEmail()}</a></li>
         <li class="list-group-item">Office Number: ${manager.officeNumber}</li>
       </ul>
     </div>`;
@@ -65,7 +65,7 @@ function generateMembersHTML(managers, engineers, interns) {
       <ul class="list-group">
         <li class="list-group-item">ID: ${engineer.id}</li>
         <li class="list-group-item">Contact: <a href="mailto:${engineer.email}">${engineer.email}</a></li>
-        <li class="list-group-item">GitHub:<a href="https://github.com/${engineer.github}" target="_blank"> ${engineer.github}</a></li>
+        <li class="list-group-item">GitHub:<a href="https://github.com/${engineer.getGithub()}" target="_blank"> ${engineer.getGithub()}</a></li>
       </ul>
     </div>`;
 
@@ -83,7 +83,7 @@ function generateMembersHTML(managers, engineers, interns) {
       <ul class="list-group">
         <li class="list-group-item">ID: ${intern.id}</li>
         <li class="list-group-item">Contact: <a href="mailto:${intern.email}">${intern.email}</a></li>
-        <li class="list-group-item">School: ${intern.school}</li>
+        <li class="list-group-item">School: ${intern.getSchool()}</li>
       </ul>
     </div>`;
 
